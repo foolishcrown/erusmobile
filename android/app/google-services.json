@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1002023809731",
+    "firebase_url": "https://erus-ead74.firebaseio.com",
+    "project_id": "erus-ead74",
+    "storage_bucket": "erus-ead74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002023809731:android:1b17d0b25d6db0f9752876",
+        "android_client_info": {
+          "package_name": "com.example.erusmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002023809731-fdfn5eucl1qk27t0hqnj50lvfdujaf5r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.erusmobile",
+            "certificate_hash": "355fb392da01f83ce13574c05f1ed8bf885ebcf3"
+          }
+        },
+        {
+          "client_id": "1002023809731-92b16v2e08a5osfqf9c8rojbg8ku4bsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcs56xKY3_94B4u4xRYpuoiVtqHJd7BMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002023809731-92b16v2e08a5osfqf9c8rojbg8ku4bsu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

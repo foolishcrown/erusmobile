@@ -1,0 +1,121 @@
+import 'dart:io';
+import 'package:erusmobile/constrants/app_constrants.dart';
+import 'package:erusmobile/scr/blocs/load_pdf_bloc.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
+import 'package:path_provider/path_provider.dart';
+
+
+class LaunchFile {
+
+  static void launchPDF({BuildContext context, String title, String file}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PDFScreen(title, file),
+      ),
+    );
+  }
+
+  static Future<dynamic> loadFromFirebase(
+      BuildContext context, String url) async {
+    return FireStorageService.loadFromStorage(context, url);
+  }
+
+  static Future<dynamic> createFileFromPdfUrl(dynamic url) async {
+    final filename =
+        'readfile.pdf'; //I did it on purpose to avoid strange naming conflicts
+    print(filename);
+    var request = await HttpClient().getUrl(Uri.parse(url));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File file = new File('$dir/$filename');
+    await file.writeAsBytes(bytes);
+    return file;
+  }
+}
+
+class FireStorageService extends ChangeNotifier {
+  FireStorageService._();
+  FireStorageService();
+
+  static Future<dynamic> loadFromStorage(
+      BuildContext context, String image) async {
+    return await FirebaseStorage.instance.ref().child(image).getDownloadURL();
+  }
+}
+
+// class PDFScreen1 extends StatelessWidget {
+//
+//   String title = "";
+//   String file;
+//   PDFScreen1(this.title, this.file);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     bloc.getPath(context, file);
+//     return Scaffold(
+//       body: StreamBuilder(
+//         stream: bloc.pathPDF,
+//         builder: (context, snapshot) => PDFViewerScaffold(
+//             appBar: AppBar(
+//               backgroundColor: AppThemes.theme_color,
+//               title: Text(snapshot.data.toString()),
+//               actions: <Widget>[
+//                 IconButton(
+//                   icon: Icon(Icons.upload_file),
+//                   onPressed: () {},
+//                 ),
+//               ],
+//             ),
+//             path: '/data/user/0/com.example.erusmobile/app_flutter/readfile.pdf'),
+//
+//       ),
+//     );
+//   }
+// }
+
+class PDFScreen extends StatefulWidget {
+  String title;
+  String file;
+  PDFScreen(this.title, this.file);
+
+  @override
+  _PDFScreenState createState() => _PDFScreenState();
+}
+
+class _PDFScreenState extends State<PDFScreen> {
+  final bloc = PDFFileBloc();
+
+  @override
+  Widget build(BuildContext context) {
+    bloc.getPath(context, widget.file);
+    return Scaffold(
+      backgroundColor: AppThemes.theme_color,
+      body: StreamBuilder(
+        stream: bloc.pathPDF,
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            String pathPDF = snapshot.data.toString();
+            return PDFViewerScaffold(
+                appBar: AppBar(
+                  backgroundColor: AppThemes.theme_color,
+                  title: Text(widget.title),
+                  actions: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.upload_file),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+                path: pathPDF);
+          }
+          return Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
+  }
+}
