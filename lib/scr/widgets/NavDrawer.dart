@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 const Widget drawerHeader = UserAccountsDrawerHeader(
   accountName: Text("SangNV16"),
-  accountEmail: Text("sangnv16@fsoft.com.vn"),
+  accountEmail: Text("vazsago@gmail.com"),
   currentAccountPicture: CircleAvatar(
     child: FlutterLogo(size: 42,),
     backgroundColor: Colors.white,
