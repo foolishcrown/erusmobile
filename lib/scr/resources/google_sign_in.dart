@@ -1,9 +1,7 @@
-import 'package:erusmobile/scr/blocs/emp_account_bloc.dart';
-import 'package:erusmobile/scr/models/emp_account_model.dart';
+import 'package:erusmobile/scr/resources/authorize_token_store.dart';
 import 'package:erusmobile/scr/resources/repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -18,18 +16,22 @@ Future<String> signInWithGoogle() async {
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
   print('Email before regist : ' + googleSignInAccount.email);
   final _repository = Repository();
-  ItemEmpAccountModel empModel =
-      await _repository.fetchAllEmpAccounts(numpage: 1);
-  print('Account :' + empModel.toString());
+  // ItemEmpAccountModel empModel =
+  //     await _repository.fetchAllEmpAccounts(numpage: 1);
+  // print('Account :' + empModel.toString());
+  // bool checkValid = false;
+  // for (int i = 0; i < empModel.accounts.length; i++) {
+  //   if (empModel.accounts[i].email.toUpperCase() ==
+  //       googleSignInAccount.email.toUpperCase()) {
+  //     checkValid = true;
+  //     break;
+  //   }
+  // }
   bool checkValid = false;
-  for (int i = 0; i < empModel.accounts.length; i++) {
-    if (empModel.accounts[i].email.toUpperCase() == googleSignInAccount.email.toUpperCase()) {
-      checkValid = true;
-      break;
-    }
-  }
+  await _repository.fetchExistStatusAccount(email: googleSignInAccount.email)
+      .then((value) => checkValid = value);
 
-  if(checkValid){
+  if (checkValid) {
     final GoogleSignInAuthentication googleSignInAuthentication =
     await googleSignInAccount.authentication;
 
@@ -37,9 +39,13 @@ Future<String> signInWithGoogle() async {
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
-    // print('ID token :' +  googleSignInAuthentication.accessToken);
-    //
-    // print('ID token :' +  googleSignInAuthentication.idToken);
+    String idToken =  googleSignInAuthentication.idToken;
+    print('id Token : ' + idToken);
+    await _repository.fetchAuthorizeToken(idToken: idToken).then(
+            (authorizeToken) async =>
+        await SharedPrefAccount.saveString(
+            SharedPrefAccount.AUTHORIZE_TOKEN, authorizeToken));
+
     final UserCredential authResult =
     await _auth.signInWithCredential(credential);
     final User user = authResult.user;

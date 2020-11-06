@@ -2,8 +2,19 @@
 ///Base URL API
 const String BASE_URL = 'https://employeereferralsystemerus.azurewebsites.net';
 
-class CandidateApiString{
+class LoginApiString{
 
+  ///Get authorize token of login api : /api/accounts/{idtoken}
+  static String getAuthorizeToken({String idToken}){
+    return BASE_URL + '/api/accounts/$idToken';
+  }
+
+  static String checkExistAccount({String email}){
+    return BASE_URL + '/api/accounts/email/$email';
+  }
+}
+
+class CandidateApiString{
   ///Get list candidates of employee api: /api/candidates/{numpage}/empid/{empID}
   static String getCandidates({int pageNum, int empId}){
     return BASE_URL + '/api/candidates/$pageNum/empid/$empId';
