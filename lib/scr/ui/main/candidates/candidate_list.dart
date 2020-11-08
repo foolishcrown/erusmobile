@@ -3,7 +3,8 @@ import 'package:erusmobile/scr/blocs/candidate_bloc.dart';
 import 'package:erusmobile/scr/models/candidate_model.dart';
 import 'package:erusmobile/scr/ui/main/candidates/candidate_add.dart';
 import 'package:erusmobile/scr/ui/main/candidates/candidate_skills_list.dart';
-import 'package:erusmobile/scr/widgets/Button.dart';
+import 'package:erusmobile/scr/widgets/AlertDialogChecker.dart';
+import 'package:erusmobile/scr/widgets/FormButtonApp.dart';
 import 'package:flutter/material.dart';
 
 class CandidateList extends StatefulWidget {
@@ -21,7 +22,7 @@ class _CandidateListState extends State<CandidateList> {
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetchAllCandidate(empId: widget.empId, pageNum: 1);
+    bloc.fetchAllCandidate(empId: widget.empId, pageNum: 1).catchError((e) {alertAuthorize(context, 'Timeout', e.toString()).show();});
     return Scaffold(
       body: StreamBuilder(
         stream: bloc.allCandidates,

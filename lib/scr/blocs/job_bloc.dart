@@ -9,7 +9,9 @@ class JobBloc {
   PublishSubject<ItemJobModel> get allJobs => _jobFetcher.stream;
 
   fetchAllJobByCompanyId({int pageNum, int companyId}) async {
-    ItemJobModel jobModel = await _repository.fetchAllJobsByCompany(companyId: companyId,numPage: pageNum);
+    ItemJobModel jobModel = await _repository.fetchAllJobsByCompany(companyId: companyId,numPage: pageNum).catchError((e) {
+      throw e;
+    });
     _jobFetcher.sink.add(jobModel);
   }
 

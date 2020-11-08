@@ -1,6 +1,7 @@
 import 'package:erusmobile/constrants/app_constrants.dart';
 import 'package:erusmobile/scr/blocs/job_bloc.dart';
 import 'package:erusmobile/scr/models/job_model.dart';
+import 'package:erusmobile/scr/widgets/AlertDialogChecker.dart';
 import 'package:flutter/material.dart';
 
 class JobList extends StatefulWidget {
@@ -18,7 +19,7 @@ class _JobListState extends State<JobList> {
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetchAllJobByCompanyId(companyId: 6, pageNum: 1);
+    bloc.fetchAllJobByCompanyId(companyId: 6, pageNum: 1).catchError((e) {alertAuthorize(context, 'Timeout', e.toString()).show();});
     return Scaffold(
       body: StreamBuilder(
         stream: bloc.allJobs,

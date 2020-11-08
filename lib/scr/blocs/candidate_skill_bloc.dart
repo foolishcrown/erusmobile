@@ -9,7 +9,9 @@ class CandidateSkillBloc{
   PublishSubject<ItemCandidateSkillModel> get allSkill => _candidateSkillFetcher.stream;
 
   fetchAllCandidateSkill(int canId) async{
-    ItemCandidateSkillModel candidateSkillModel = await _repository.fetchSkillsByCandidate(canId);
+    ItemCandidateSkillModel candidateSkillModel = await _repository.fetchSkillsByCandidate(canId).catchError((e) {
+      throw e;
+    });
     _candidateSkillFetcher.sink.add(candidateSkillModel);
   }
 

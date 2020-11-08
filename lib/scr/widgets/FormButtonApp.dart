@@ -1,10 +1,6 @@
 import 'package:erusmobile/constrants/app_constrants.dart';
-import 'package:erusmobile/scr/ui/main/candidates/candidate_list.dart';
-import 'package:erusmobile/scr/ui/main/candidates/candidate_skills_list.dart';
-import 'package:erusmobile/scr/widgets/LoadFileImage.dart';
 import 'package:erusmobile/scr/widgets/LoadFilePDF.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
 
 Widget appBtnShowListDialog(BuildContext context, Widget listWidget, String title) =>
     InkWell(

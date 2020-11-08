@@ -1,6 +1,7 @@
 
 import 'package:erusmobile/constrants/app_constrants.dart';
-import 'file:///D:/FPTU/Workspace/erusmobile/lib/scr/ui/main/candidates/candidate_list.dart';
+import 'package:erusmobile/scr/ui/main/candidates/candidate_list.dart';
+
 import 'package:erusmobile/scr/widgets/NavDrawer.dart';
 import 'package:flutter/material.dart';
 

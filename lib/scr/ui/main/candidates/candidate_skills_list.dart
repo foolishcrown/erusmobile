@@ -5,6 +5,7 @@
 import 'package:erusmobile/constrants/app_constrants.dart';
 import 'package:erusmobile/scr/blocs/candidate_skill_bloc.dart';
 import 'package:erusmobile/scr/models/skill_candidate_model.dart';
+import 'package:erusmobile/scr/widgets/AlertDialogChecker.dart';
 import 'package:flutter/material.dart';
 
 
@@ -30,7 +31,7 @@ class _CandidateSkillListState extends State<CandidateSkillList> {
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetchAllCandidateSkill(widget.canId);
+    bloc.fetchAllCandidateSkill(widget.canId).catchError((e) {alertAuthorize(context, 'Timeout', e.toString()).show();});
     return Scaffold(
       body: StreamBuilder(
         stream: bloc.allSkill,

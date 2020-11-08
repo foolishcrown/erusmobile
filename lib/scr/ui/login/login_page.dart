@@ -1,5 +1,5 @@
-import 'file:///D:/FPTU/Workspace/erusmobile/lib/scr/ui/main/main_page.dart';
 import 'package:erusmobile/scr/resources/google_sign_in.dart';
+import 'package:erusmobile/scr/ui/main/main_page.dart';
 import 'package:erusmobile/scr/widgets/AppTitle.dart';
 import 'package:flutter/material.dart';
 import 'package:erusmobile/constrants/app_constrants.dart';

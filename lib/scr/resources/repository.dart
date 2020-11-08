@@ -35,8 +35,14 @@ class Repository {
 
   Future<ItemCandidateSkillModel> fetchSkillsByCandidate(int canId) async =>
       await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
-          .then((value) => candidateSkillApiProvider.fetchCandidateSkillList(
-              canID: canId, numpage: 1, authorizeToken: value.toString()));
+          .then((value) => candidateSkillApiProvider
+                  .fetchCandidateSkillList(
+                      canID: canId,
+                      numpage: 1,
+                      authorizeToken: value.toString())
+                  .catchError((e) {
+                throw e;
+              }));
 
   ///Call api get all jobs by company id
   final jobsApiProvider = JobApiProvider();
@@ -47,5 +53,7 @@ class Repository {
           .then((value) => jobsApiProvider.fetchJobList(
               companyId: companyId,
               pageNum: numPage,
-              authorizeToken: value.toString()));
+              authorizeToken: value.toString()).catchError((e) {
+        throw e;
+      }));
 }

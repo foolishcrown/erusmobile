@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:erusmobile/scr/widgets/LoadFilePDF.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:rxdart/rxdart.dart';
 
 class PDFFileBloc{
   StreamController _pathPDF = new StreamController();
@@ -19,7 +18,9 @@ class PDFFileBloc{
       } else if(f is Uri){
         _pathPDF.sink.addError(f.toString())
       }
-    }));
+    })).catchError((e) {
+      throw e;
+    });
   }
 
   // 4

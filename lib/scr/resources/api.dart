@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:erusmobile/scr/models/candidate_model.dart';
 import 'package:erusmobile/scr/models/emp_account_model.dart';
 import 'package:erusmobile/scr/models/job_model.dart';
@@ -63,6 +62,8 @@ class CandidateApiProvider {
       if (response.statusCode == 200) {
         // If the call to the server was successful, parse the JSON
         return ItemCandidateModel.fromJson(json.decode(response.body));
+      } else if(response.statusCode == 401){
+        throw Exception('Your login authorize token has been expired, try to login again !');
       } else {
         // If that call was not successful, throw an error.
         throw Exception('Failed to load post');
@@ -87,6 +88,8 @@ class CandidateSkillApiProvider {
       print('body : ' + response.body.toString());
       if (response.statusCode == 200) {
         return ItemCandidateSkillModel.fromJson(json.decode(response.body));
+      } else if(response.statusCode == 401){
+        throw Exception('Your login authorize token has been expired, try to login again !');
       } else {
         throw Exception('Failed to load post');
       }
@@ -107,6 +110,8 @@ class EmpAccountApiProvider {
       print('body :' + response.body.toString());
       if (response.statusCode == 200) {
         return ItemEmpAccountModel.fromJson(json.decode(response.body));
+      } else if(response.statusCode == 401){
+        throw Exception('Your login authorize token has been expired, try to login again !');
       } else {
         throw Exception('Failed to load post');
       }
@@ -130,6 +135,8 @@ class JobApiProvider {
       if (response.statusCode == 200) {
         // If the call to the server was successful, parse the JSON
         return ItemJobModel.fromJson(json.decode(response.body));
+      } else if(response.statusCode == 401){
+        throw Exception('Your login authorize token has been expired, try to login again !');
       } else {
         // If that call was not successful, throw an error.
         throw Exception('Failed to load post');
