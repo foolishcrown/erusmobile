@@ -14,14 +14,6 @@ class _JobsPageState extends State<JobsPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppThemes.theme_color,
-          title: Text("Jobs", style: AppFonts.title_style1(context)),
-          centerTitle: true,
-        ),
-        drawer: Drawer(
-          child: drawerItems(context),
-        ),
         body: JobList(companyId: 6),
       ),
     );

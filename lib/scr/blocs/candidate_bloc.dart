@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:erusmobile/scr/models/candidate_model.dart';
 import 'package:erusmobile/scr/resources/repository.dart';
 import 'package:rxdart/rxdart.dart';

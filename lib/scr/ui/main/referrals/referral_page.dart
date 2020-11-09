@@ -12,16 +12,7 @@ class _ReferralsPageState extends State<ReferralsPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppThemes.theme_color,
-          title: Text("Referrals", style: AppFonts.title_style1(context)),
-          centerTitle: true,
-        ),
-        drawer: Drawer(
-          child: drawerItems(context),
-        ),
-      ),
+      home: Scaffold(),
     );
   }
 }

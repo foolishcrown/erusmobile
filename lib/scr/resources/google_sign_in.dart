@@ -1,3 +1,4 @@
+import 'package:erusmobile/scr/models/emp_account_model.dart';
 import 'package:erusmobile/scr/resources/authorize_token_store.dart';
 import 'package:erusmobile/scr/resources/repository.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,9 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
-String name;
-String email;
-String imageUrl;
 
 Future<String> signInWithGoogle() async {
   await Firebase.initializeApp();
@@ -62,7 +60,29 @@ Future<String> signInWithGoogle() async {
       assert(user.photoURL != null);
       // Store the retrieved data
 
-      print('signInWithGoogle succeeded: $user');
+      print('signInWithGoogle succeeded: ${user.email}');
+
+      await _repository.fetchEmpAccount(user.email).then((empAccount) async => {
+            await SharedPrefAccount.saveInt(
+                SharedPrefAccount.EMP_ID, empAccount.id),
+            await SharedPrefAccount.saveString(
+                SharedPrefAccount.FIRST_NAME, empAccount.firstName),
+            await SharedPrefAccount.saveString(
+                SharedPrefAccount.LAST_NAME, empAccount.lastName),
+            await SharedPrefAccount.saveString(
+                SharedPrefAccount.PHONE, empAccount.phone),
+            await SharedPrefAccount.saveString(
+                SharedPrefAccount.ADDRESS, empAccount.address),
+            await SharedPrefAccount.saveString(
+                SharedPrefAccount.DATE_OF_BIRTH, empAccount.dateOfBirth),
+            await SharedPrefAccount.saveInt(
+                SharedPrefAccount.TOTAL_REWARD, empAccount.totalReward),
+            await SharedPrefAccount.saveInt(
+                SharedPrefAccount.QUANTITY_CANDIDATE,
+                empAccount.quantityCandidate),
+            await SharedPrefAccount.saveString(
+                SharedPrefAccount.EMAIL, empAccount.email),
+          });
 
       return '$user';
     }
