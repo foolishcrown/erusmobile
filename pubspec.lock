@@ -187,7 +187,7 @@ packages:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.0"
+    version: "6.1.1"
   flutter_full_pdf_viewer:
     dependency: "direct main"
     description:
@@ -267,7 +267,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.18"
+    version: "2.1.19"
   intl:
     dependency: transitive
     description:

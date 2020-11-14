@@ -13,7 +13,7 @@ Future<String> signInWithGoogle() async {
   await Firebase.initializeApp();
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
   print('Email before regist : ' + googleSignInAccount.email);
-  final _repository = Repository();
+  final _repository = LoginRepository();
   // ItemEmpAccountModel empModel =
   //     await _repository.fetchAllEmpAccounts(numpage: 1);
   // print('Account :' + empModel.toString());

@@ -48,9 +48,9 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 flutter_icons:
-  android: "launcher icon"
+  image_path: assets/logo_icon/app_icon.png
+  android: true
   ios: true
-  image_path: "assets/partners.png"
 
 dev_dependencies:
   flutter_test:

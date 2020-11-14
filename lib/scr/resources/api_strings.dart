@@ -25,6 +25,10 @@ class CandidateApiString {
 
   ///Update candidate by id api:​/api/candidates/{id}
 
+  static String updateCandidateById(int id) {
+    return BASE_URL + '/api/candidates/$id';
+  }
+
   ///Delete candidate by id api:​/api/candidates/{id}
 
   ///Insert candidate api: /api/candidates

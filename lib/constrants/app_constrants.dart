@@ -63,22 +63,32 @@ class AppFonts {
         .of(context)
         .size;
     double fontSize = size.width * FONT_TITLE_RATIO;
-    return TextStyle(fontFamily: 'Questrial',
+    return TextStyle(
+        fontFamily: 'Questrial',
         fontWeight: FontWeight.w400,
         color: Colors.black,
         fontSize: fontSize);
   }
 
-
   ///font style 2 - OPEN SANS - component font
   // static const TextStyle comp_style_20_black = TextStyle(fontFamily: 'Open Sans', fontWeight: FontWeight.w700 , color: Colors.black, );
   // static const TextStyle comp_style_20_white = TextStyle(fontFamily: 'Open Sans', fontWeight: FontWeight.w700 , color: Colors.white, );
-  static TextStyle comp_style_black(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+
+  static TextStyle comp_title_black(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     double fontSize = size.width * FONT_COMP_RATIO;
-    return TextStyle(fontFamily: 'Open Sans',
+    return TextStyle(
+        fontFamily: 'Open Sans',
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+        fontSize: fontSize);
+  }
+
+  static TextStyle comp_style_black(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double fontSize = size.width * FONT_COMP_RATIO;
+    return TextStyle(
+        fontFamily: 'Open Sans',
         fontWeight: FontWeight.w400,
         color: Colors.black,
         fontSize: fontSize);

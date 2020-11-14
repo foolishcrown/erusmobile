@@ -19,7 +19,9 @@ class _JobListState extends State<JobList> {
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetchAllJobByCompanyId(companyId: 6, pageNum: 1).catchError((e) {alertAuthorize(context, 'Timeout', e.toString()).show();});
+    bloc.fetchAllJobByCompanyId(companyId: 6, pageNum: 1).catchError((e) {
+      showAlertTimeOutDialog(context, 'Alert', e.toString());
+    });
     return Scaffold(
       body: StreamBuilder(
         stream: bloc.allJobs,

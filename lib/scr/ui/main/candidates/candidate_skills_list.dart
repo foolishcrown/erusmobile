@@ -31,7 +31,9 @@ class _CandidateSkillListState extends State<CandidateSkillList> {
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetchAllCandidateSkill(widget.canId).catchError((e) {alertAuthorize(context, 'Timeout', e.toString()).show();});
+    bloc.fetchAllCandidateSkill(widget.canId).catchError((e) {
+      showAlertTimeOutDialog(context, 'Alert', e.toString());
+    });
     return Scaffold(
       body: StreamBuilder(
         stream: bloc.allSkill,

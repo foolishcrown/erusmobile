@@ -35,6 +35,51 @@ class _Candidate {
   String get resumeFile => _resumeFile;
 }
 
+class Candidate {
+  int _id;
+  String _firstName;
+  String _lastName;
+  String _email;
+  String _phone;
+  String _resumeFile;
+
+  Candidate(this._id, this._firstName, this._lastName, this._email, this._phone,
+      this._resumeFile); // final int empID;
+
+  Candidate.fromJson(Map<String, dynamic> result) {
+    _id = result['id'];
+    _firstName = result['firstName'];
+    _lastName = result['lastName'];
+    _email = result['email'];
+    _phone = result['phone'];
+    _resumeFile = result['resumeFile'];
+  }
+
+  Map<String, dynamic> toJson(int empID) => {
+        "id": _id,
+        "firstName": _firstName,
+        "lastName": _lastName,
+        "email": _email,
+        "phone": _phone,
+        "resumeFile": _resumeFile,
+        "empID": empID
+      };
+
+  int get id => _id;
+
+  String get firstName => _firstName;
+
+  String get lastName => _lastName;
+
+  String get fullname => _lastName + " " + firstName;
+
+  String get email => _email;
+
+  String get phone => _phone;
+
+  String get resumeFile => _resumeFile;
+}
+
 class ItemCandidateModel {
   final String listName = 'listCandidate';
   int _num_page;

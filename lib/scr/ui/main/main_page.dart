@@ -76,21 +76,40 @@ class _MainPageState extends State<MainPage> {
         stream: bloc.empAccount,
         builder: (context, AsyncSnapshot<EmpAccount> snapshot) {
           if (snapshot.hasData) {
-            return Scaffold(
-              appBar: AppBar(
-                backgroundColor: AppThemes.theme_color,
-                title: Text(_titleAppbar().elementAt(_selectedIndex),
-                    style: AppFonts.title_style1(context)),
-                centerTitle: true,
+            return WillPopScope(
+              onWillPop: () => showDialog<bool>(
+                context: context,
+                builder: (c) => AlertDialog(
+                  title: Text('Warning'),
+                  content: Text('Do you really want to exit'),
+                  actions: [
+                    FlatButton(
+                      child: Text('Yes'),
+                      onPressed: () => Navigator.pop(c, true),
+                    ),
+                    FlatButton(
+                      child: Text('No'),
+                      onPressed: () => Navigator.pop(c, false),
+                    ),
+                  ],
+                ),
               ),
-              drawer: Drawer(
-                  child: drawerItems(
-                      context, snapshot.data.fullName, snapshot.data.email)),
-              body: Center(
-                child: _widgetOptions(snapshot.data.id).elementAt(
-                    _selectedIndex),
+              child: Scaffold(
+                appBar: AppBar(
+                  backgroundColor: AppThemes.theme_color,
+                  title: Text(_titleAppbar().elementAt(_selectedIndex),
+                      style: AppFonts.title_style1(context)),
+                  centerTitle: true,
+                ),
+                drawer: Drawer(
+                    child: drawerItems(
+                        context, snapshot.data.fullName, snapshot.data.email)),
+                body: Center(
+                  child: _widgetOptions(snapshot.data.id)
+                      .elementAt(_selectedIndex),
+                ),
+                bottomNavigationBar: _navBottom(context),
               ),
-              bottomNavigationBar: _navBottom(context),
             );
           } else if (snapshot.hasError) {
             return Text(snapshot.error.toString());
