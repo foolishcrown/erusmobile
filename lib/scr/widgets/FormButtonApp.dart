@@ -2,13 +2,15 @@ import 'package:erusmobile/constrants/app_constrants.dart';
 import 'package:erusmobile/scr/resources/google_sign_in.dart';
 import 'package:erusmobile/scr/ui/main/main_page.dart';
 import 'package:erusmobile/scr/widgets/LoadFilePDF.dart';
-import 'package:erusmobile/scr/widgets/LoadingScreen.dart';
 import 'package:flutter/material.dart';
 
+import 'AlertDialogChecker.dart';
+
 Widget loginButtonSubmit(BuildContext context) {
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   return InkWell(
     onTap: () {
-      signInWithGoogle().then((result) {
+      signInWithGoogle(context, _keyLoader).then((result) {
         if (result != null) {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -31,6 +33,8 @@ Widget loginButtonSubmit(BuildContext context) {
                 );
               });
         }
+      }).catchError((e) {
+        showAlertTimeOutDialog(context, 'Login Failed', e.toString());
       });
     },
     child: Container(
@@ -76,16 +80,20 @@ Widget appBtnShowListDialog(
                   title,
                   style: AppFonts.title_style2(context),
                 ),
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.add_box),
+                    color: Colors.black,
+                    onPressed: () {},
+                  )
+                ],
                 backgroundColor: AppThemes.theme_color,
                 content: listWidget,
               );
             });
       },
       child: Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width / 1.2,
+        width: MediaQuery.of(context).size.width / 3,
         padding: EdgeInsets.symmetric(vertical: 5),
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -123,7 +131,7 @@ Widget appBtnShowImageDialog(
         width: MediaQuery
             .of(context)
             .size
-            .width / 1.2,
+            .width / 3,
         padding: EdgeInsets.symmetric(vertical: 5),
         alignment: Alignment.center,
         decoration: BoxDecoration(

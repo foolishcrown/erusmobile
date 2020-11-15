@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:erusmobile/constrants/app_constrants.dart';
 import 'package:erusmobile/scr/blocs/candidate_bloc.dart';
 import 'package:erusmobile/scr/models/candidate_model.dart';
@@ -5,6 +7,7 @@ import 'package:erusmobile/scr/ui/main/candidates/candidate_infor.dart';
 import 'package:erusmobile/scr/ui/main/candidates/candidate_skills_list.dart';
 import 'package:erusmobile/scr/widgets/AlertDialogChecker.dart';
 import 'package:erusmobile/scr/widgets/FormButtonApp.dart';
+import 'package:erusmobile/scr/widgets/LoadingScreen.dart';
 import 'package:flutter/material.dart';
 
 class CandidateList extends StatefulWidget {
@@ -17,7 +20,8 @@ class CandidateList extends StatefulWidget {
 }
 
 class _CandidateListState extends State<CandidateList> {
-  final bloc = CandidateBloc();
+  CandidateBloc bloc = CandidateBloc();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +44,8 @@ class _CandidateListState extends State<CandidateList> {
           },
         ),
       ),
+
+      ///ADD NEW CANDIDATE BUTTON
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -47,7 +53,7 @@ class _CandidateListState extends State<CandidateList> {
               MaterialPageRoute(
                 builder: (context) =>
                     CandidateInfo(isCreate: true, empId: widget.empId),
-              ));
+              )).then((value) => setState(() {}));
         },
         tooltip: 'Add new candidate',
         child: Icon(Icons.person_add_alt_1),
@@ -55,6 +61,20 @@ class _CandidateListState extends State<CandidateList> {
     );
   }
 
+  void setupWaitTimeResponse(
+      {String successMsg, String failMsg, bool status}) async {
+    if (status) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(successMsg)));
+      await Future.delayed(const Duration(seconds: 1))
+          .then((value) => {Navigator.pop(context)});
+    } else {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(failMsg)));
+      await Future.delayed(const Duration(seconds: 1))
+          .then((value) => {Navigator.pop(context)});
+    }
+  }
+
+  ///BUILD LIST CANDIDATE
   Widget buildList(AsyncSnapshot<ItemCandidateModel> snapshot) {
     final sizeSpace1 = 15.0;
     final sizeSpace2 = 5.0;
@@ -111,7 +131,7 @@ class _CandidateListState extends State<CandidateList> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
+                              BorderRadius.all(Radius.circular(5.0)),
                               color: Colors.deepOrangeAccent.withOpacity(0.3),
                             ),
                             // color: Colors.orangeAccent.withOpacity(0.2),
@@ -119,18 +139,61 @@ class _CandidateListState extends State<CandidateList> {
                               iconSize: 30,
                               color: Colors.redAccent,
                               icon: Icon(Icons.delete),
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('Message'),
+                                        content: new SingleChildScrollView(
+                                          child: Text('You want to delete ?'),
+                                        ),
+                                        actions: <Widget>[
+                                          new FlatButton(
+                                            child: new Text("Yes"),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              Dialogs.showLoadingDialog(
+                                                  context, _keyLoader);
+                                              bloc.deleteCandidateById(
+                                                  canId: snapshot.data
+                                                      .candidates[index].id);
+                                              bloc.deleteStatus.stream.first
+                                                  .then(
+                                                    (value) =>
+                                                {
+                                                  setState(() {}),
+                                                  setupWaitTimeResponse(
+                                                      successMsg:
+                                                      'Delete Success',
+                                                      failMsg: 'Delete Fail',
+                                                      status: value)
+                                                },
+                                                // }
+                                              );
+                                            },
+                                          ),
+                                          new FlatButton(
+                                            child: new Text("No"),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
                             ),
                           ),
                           SizedBox(
                             height: 3,
                           ),
 
-                          ///Update button
+                          ///EDIT CANDIDATE button
                           Container(
                             decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
+                              BorderRadius.all(Radius.circular(5.0)),
                               color: Colors.amber.withOpacity(0.3),
                             ),
                             // color: Colors.orangeAccent.withOpacity(0.2),
@@ -139,17 +202,17 @@ class _CandidateListState extends State<CandidateList> {
                               color: Colors.amber,
                               icon: Icon(Icons.edit_outlined),
                               onPressed: () {
-                                print('EMPID 1: ' + widget.empId.toString());
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => CandidateInfo(
-                                        candidateId:
+                                      builder: (context) =>
+                                          CandidateInfo(
+                                            candidateId:
                                             snapshot.data.candidates[index].id,
-                                        isCreate: false,
-                                        empId: widget.empId,
-                                      ),
-                                    ));
+                                            isCreate: false,
+                                            empId: widget.empId,
+                                          ),
+                                    )).then((value) => setState(() {}));
                               },
                             ),
                           ),
@@ -161,18 +224,25 @@ class _CandidateListState extends State<CandidateList> {
                 SizedBox(
                   height: sizeSpace1,
                 ),
-                appBtnShowListDialog(
-                    context,
-                    CandidateSkillList(
-                        canId: snapshot.data.candidates[index].id),
-                    'Skills'),
-                SizedBox(
-                  height: sizeSpace1,
+                Row(
+                  children: [
+                    appBtnShowListDialog(
+                        context,
+                        CandidateSkillList(
+                            canId: snapshot.data.candidates[index].id),
+                        'Skills'),
+                    SizedBox(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width / 9,
+                    ),
+                    appBtnShowImageDialog(
+                        context: context,
+                        title: 'Resume',
+                        file: snapshot.data.candidates[index].resumeFile),
+                  ],
                 ),
-                appBtnShowImageDialog(
-                    context: context,
-                    title: 'Resume',
-                    file: snapshot.data.candidates[index].resumeFile),
               ],
             ),
           ),

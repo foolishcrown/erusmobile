@@ -46,6 +46,19 @@ class Candidate {
   Candidate(this._id, this._firstName, this._lastName, this._email, this._phone,
       this._resumeFile); // final int empID;
 
+  Candidate.newCandidate(
+      {String firstName,
+      String lastName,
+      String phone,
+      String email,
+      String resuneFile}) {
+    _firstName = firstName;
+    _lastName = lastName;
+    _email = email;
+    _phone = phone;
+    _resumeFile = resuneFile;
+  }
+
   Candidate.fromJson(Map<String, dynamic> result) {
     _id = result['id'];
     _firstName = result['firstName'];
@@ -55,8 +68,17 @@ class Candidate {
     _resumeFile = result['resumeFile'];
   }
 
-  Map<String, dynamic> toJson(int empID) => {
+  Map<String, dynamic> toJsonUpdate(int empID) => {
         "id": _id,
+        "firstName": _firstName,
+        "lastName": _lastName,
+        "email": _email,
+        "phone": _phone,
+        "resumeFile": _resumeFile,
+        "empID": empID
+      };
+
+  Map<String, dynamic> toJsonInsert(int empID) => {
         "firstName": _firstName,
         "lastName": _lastName,
         "email": _email,

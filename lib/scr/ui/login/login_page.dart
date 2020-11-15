@@ -13,6 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    Widget loginTitle = appTitle(context);
     signOutGoogle();
     return Scaffold(
       body: SingleChildScrollView(
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              appTitle(context),
+              loginTitle,
               SizedBox(
                 height: 80,
               ),

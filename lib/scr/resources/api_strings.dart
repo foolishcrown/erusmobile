@@ -4,11 +4,11 @@ const String BASE_URL = 'https://employeereferralsystemerus.azurewebsites.net';
 class LoginApiString {
   ///Get authorize token of login api : /api/accounts/{idtoken}
   static String getAuthorizeToken({String idToken}) {
-    return BASE_URL + '/api/accounts/$idToken';
+    return BASE_URL + '/api/logins/$idToken';
   }
 
   static String checkExistAccount({String email}) {
-    return BASE_URL + '/api/accounts/email/$email';
+    return BASE_URL + '/api/logins/email/$email';
   }
 }
 
@@ -30,9 +30,14 @@ class CandidateApiString {
   }
 
   ///Delete candidate by id api:​/api/candidates/{id}
+  static String deleteCandidate(int canId) {
+    return BASE_URL + '/api/candidates/$canId';
+  }
 
   ///Insert candidate api: /api/candidates
-
+  static String insertCandidate() {
+    return BASE_URL + '/api/candidates';
+  }
 }
 
 class CandidateSkillApiString {

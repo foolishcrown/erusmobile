@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:erusmobile/constrants/app_constrants.dart';
 import 'package:erusmobile/scr/blocs/candidate_bloc.dart';
 import 'package:erusmobile/scr/models/candidate_model.dart';
+import 'package:erusmobile/scr/resources/file_picker.dart';
 import 'package:erusmobile/scr/widgets/AlertDialogChecker.dart';
+import 'package:erusmobile/scr/widgets/LoadFilePDF.dart';
 import 'package:erusmobile/scr/widgets/LoadingScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -25,12 +29,16 @@ class _CandidateInfoState extends State<CandidateInfo> {
   @override
   Widget build(BuildContext context) {
     var routeCandidate;
+
+    ///NEW CANDIDATE
     if (widget.isCreate) {
       widget.title = 'New Candidate';
       routeCandidate = CandidateRoutePage(
         isCreate: widget.isCreate,
         empId: widget.empId,
       );
+
+      ///EDIT CANDIDATE
     } else {
       widget.title = 'Edit Candidate';
       routeCandidate = CandidateRoutePage(
@@ -71,7 +79,18 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
   final _lastNameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
+  final _resumeFileController = TextEditingController();
   bool isSubmit = false;
+  bool isSelectFile = false;
+  String selectFileMsg = 'Please select resume file!';
+  File selectedFile;
+
+  void _onSelectFile() {
+    setState(() {
+      selectFileMsg = 'Selected!';
+      isSelectFile = true;
+    });
+  }
 
   @override
   void dispose() {
@@ -79,6 +98,7 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
     _lastNameController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
+    _resumeFileController.dispose();
     super.dispose();
   }
 
@@ -103,7 +123,6 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
         splashColor: Colors.transparent,
         child: Form(
           key: _formKey,
-          // autovalidateMode,
           child: Container(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -112,7 +131,9 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
+                    keyboardType: TextInputType.name,
                     controller: _firstNameController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: 'First name',
                       icon: Icon(Icons.drive_file_rename_outline),
@@ -128,7 +149,9 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
+                    keyboardType: TextInputType.name,
                     controller: _lastNameController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: 'Last name',
                       icon: Icon(Icons.drive_file_rename_outline),
@@ -144,6 +167,8 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _phoneController,
                     decoration: InputDecoration(
                       labelText: 'Phone',
@@ -151,7 +176,10 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Please enter phone';
+                      }
+                      if (value.length > 13) {
+                        return 'Phone must < 13 numbers';
                       }
                       return null;
                     },
@@ -160,30 +188,116 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
                       icon: Icon(Icons.email),
                     ),
                     validator: (value) {
+                      Pattern pattern =
+                          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                          r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                          r"{0,253}[a-zA-Z0-9])?)*$";
+                      RegExp regex = new RegExp(pattern);
                       if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
+                        return 'Please enter email';
+                      } else if (!regex.hasMatch(value))
+                        return 'Please enter a valid email address';
                       return null;
                     },
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          pickFileChooser().then((value) => {
+                                if (value is File)
+                                  {
+                                    // FireStorageService.saveToStorage(value)
+                                    _resumeFileController.text =
+                                        value.path.split('/').last,
+                                    print("Selected File : " +
+                                        _resumeFileController.text),
+                                    selectedFile = value,
+                                    isSelectFile = true,
+                                    // _resumeFileController.text = value.
+                                    _onSelectFile(),
+                                  }
+                                else
+                                  {print('Cancel upload')}
+                              });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            color: Colors.deepOrangeAccent.withOpacity(0.3),
+                          ),
+                          // color: Colors.orangeAccent.withOpacity(0.2),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.picture_as_pdf,
+                                size: 30,
+                                color: Colors.redAccent,
+                              ),
+                              Text('Add Resume File')
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 40,
+                      ),
+                      Text(
+                        selectFileMsg,
+                        style: AppFonts.comp_style_detail_red(context),
+                      ),
+                    ],
                   ),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
-                    if (_formKey.currentState.validate()) {
-                      // If the form is valid, display a Snackbar.
-                      Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text('Processing Data')));
+                    if (!isSubmit) {
+                      if (_formKey.currentState.validate() && isSelectFile) {
+                        // If the form is valid, display a Snackbar.
+                        Dialogs.showLoadingDialog(context, _keyLoader);
+                        String firstName = _firstNameController.text;
+                        String lastName = _lastNameController.text;
+                        String phone = _phoneController.text;
+                        String email = _emailController.text;
+                        String resumeFile = _resumeFileController.text;
+                        Candidate _tmpCandidate = Candidate.newCandidate(
+                            firstName: firstName,
+                            lastName: lastName,
+                            phone: phone,
+                            email: email,
+                            resuneFile: resumeFile);
+                        bloc.insertCandidate(
+                            empId: widget.empId, candidate: _tmpCandidate);
+                        bloc.insertStatus.stream.first.then((value) => {
+                              if (value)
+                                {
+                                  FireStorageService.saveToStorage(
+                                      selectedFile, resumeFile)
+                                },
+                              setupWaitTimeResponse(
+                                  successMsg: 'Create Success',
+                                  failMsg: 'Create Fail',
+                                  status: value),
+                            });
+                      }
                     }
                   },
-                  child: Text('Submit'),
+                  child: Text('Create'),
                 ),
               ],
             ),
@@ -219,7 +333,9 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                               horizontal: 20, vertical: 10),
                           child: TextFormField(
                             controller: _firstNameController,
-                            autovalidateMode: AutovalidateMode.always,
+                            keyboardType: TextInputType.name,
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
                               labelText: 'First name',
                               icon: Icon(Icons.drive_file_rename_outline),
@@ -237,7 +353,9 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                               horizontal: 20, vertical: 10),
                           child: TextFormField(
                             controller: _lastNameController,
-                            autovalidateMode: AutovalidateMode.always,
+                            keyboardType: TextInputType.name,
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
                               labelText: 'Last name',
                               icon: Icon(Icons.drive_file_rename_outline),
@@ -254,8 +372,9 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: TextFormField(
-                            controller: _phoneController,
-                            autovalidateMode: AutovalidateMode.always,
+                            keyboardType: TextInputType.phone,
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
                               labelText: 'Phone',
                               icon: Icon(Icons.phone),
@@ -263,6 +382,9 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please enter some text';
+                              }
+                              if (value.length > 13) {
+                                return 'Phone must < 13 numbers';
                               }
                               return null;
                             },
@@ -272,8 +394,10 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
                             controller: _emailController,
-                            autovalidateMode: AutovalidateMode.always,
                             decoration: InputDecoration(
                               labelText: 'Email',
                               icon: Icon(Icons.email),
@@ -303,6 +427,8 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                                             child: new Text("Yes"),
                                             onPressed: () {
                                               Navigator.pop(context);
+
+                                              ///Loading dialog
                                               Dialogs.showLoadingDialog(
                                                   context, _keyLoader);
                                               isSubmit = true;
@@ -318,22 +444,22 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                                               String resumeFile =
                                                   snapshot.data.resumeFile;
                                               Candidate _tmpCandidate =
-                                                  Candidate(
-                                                      widget.candidateId,
-                                                      firstName,
-                                                      lastName,
-                                                      email,
-                                                      phone,
-                                                      resumeFile);
+                                              Candidate(
+                                                  widget.candidateId,
+                                                  firstName,
+                                                  lastName,
+                                                  email,
+                                                  phone,
+                                                  resumeFile);
                                               bloc.updateCandidateById(
                                                   empId: widget.empId,
                                                   candidate: _tmpCandidate);
                                               bloc.updateStatus.stream.first
                                                   .then(
-                                                (value) =>
+                                                    (value) =>
                                                     setupWaitTimeResponse(
                                                         successMsg:
-                                                            'Update Success',
+                                                        'Update Success',
                                                         failMsg: 'Update Fail',
                                                         status: value),
                                                 // }

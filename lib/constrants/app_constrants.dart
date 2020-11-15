@@ -2,7 +2,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppFonts {
   // This class is not meant to be instantiated or extended; this constructor
@@ -106,16 +105,24 @@ class AppFonts {
   }
 
   static TextStyle comp_style_detail_white(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     double fontSize = size.width * FONT_COMP_DETAIL_RATIO;
-    return TextStyle(fontFamily: 'Open Sans',
+    return TextStyle(
+        fontFamily: 'Open Sans',
         fontWeight: FontWeight.w400,
         color: Colors.white,
         fontSize: fontSize);
   }
 
+  static TextStyle comp_style_detail_red(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double fontSize = size.width * FONT_COMP_DETAIL_RATIO;
+    return TextStyle(
+        fontFamily: 'Open Sans',
+        fontWeight: FontWeight.w400,
+        color: Colors.redAccent,
+        fontSize: fontSize);
+  }
 
 // static const TextStyle comp_style_18 = TextStyle(fontFamily: 'Open Sans', fontWeight: FontWeight.w400 , color: Colors.black, fontSize: 16);
 }

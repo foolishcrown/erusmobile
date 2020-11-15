@@ -34,7 +34,8 @@ class LoginApiProvider {
     if (response.statusCode == 200) {
       return json.decode(response.body)['isExist'];
     } else {
-      throw Exception('Failed to load post');
+      throw Exception(
+          'Failed to load post, server is under maintenance, please try again later.');
     }
   }
 }
@@ -87,8 +88,33 @@ class CandidateApiProvider {
     }
   }
 
+  Future<bool> deleteCandidateById(
+      {@required int canId, @required String authorizeToken}) async {
+    Client client = Client();
+
+    print("Deleting candidate");
+    final response = await client.delete(
+        CandidateApiString.getCandidateById(canId),
+        headers: {'Authorization': authorizeToken});
+
+    print("body : " + response.body.toString());
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      return true;
+    } else if (response.statusCode == 401) {
+      signOutGoogle();
+      throw Exception(
+          'Your login authorize token has been expired, try to login again !');
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
   Future<bool> fetchCandidateUpdate(
-      {@required int empID, @required String authorizeToken, @required Candidate newCandidate}) async {
+      {@required int empID,
+      @required String authorizeToken,
+      @required Candidate newCandidate}) async {
     Client client = Client();
 
     print("Updating candidate");
@@ -98,10 +124,38 @@ class CandidateApiProvider {
           'Authorization': authorizeToken,
           'Content-Type': 'application/json'
         },
-        body: json.encode(newCandidate.toJson(empID)));
+        body: json.encode(newCandidate.toJsonUpdate(empID)));
 
     print("body : " + response.body.toString());
     if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      return true;
+    } else if (response.statusCode == 401) {
+      signOutGoogle();
+      throw Exception(
+          'Your login authorize token has been expired, try to login again !');
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<bool> insertNewCandidate(
+      {@required int empID,
+      @required String authorizeToken,
+      @required Candidate newCandidate}) async {
+    Client client = Client();
+
+    print("Processing candidate");
+    final response = await client.post(CandidateApiString.insertCandidate(),
+        headers: {
+          'Authorization': authorizeToken,
+          'Content-Type': 'application/json'
+        },
+        body: json.encode(newCandidate.toJsonInsert(empID)));
+
+    print("body : " + response.body.toString());
+    if (response.statusCode == 201) {
       // If the call to the server was successful, parse the JSON
       return true;
     } else if (response.statusCode == 401) {

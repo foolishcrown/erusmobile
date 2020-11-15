@@ -30,10 +30,30 @@ class CandidateRepository {
                 throw e;
               }));
 
+  Future<bool> deleteCandidateById({int canId}) async =>
+      await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
+          .then((value) => _candidateApiProvider
+                  .deleteCandidateById(
+                      canId: canId, authorizeToken: value.toString())
+                  .catchError((e) {
+                throw e;
+              }));
+
   Future<bool> updateCandidateById({Candidate candidate, int empId}) async =>
       await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
           .then((value) => _candidateApiProvider
                   .fetchCandidateUpdate(
+                      empID: empId,
+                      newCandidate: candidate,
+                      authorizeToken: value.toString())
+                  .catchError((e) {
+                throw e;
+              }));
+
+  Future<bool> insertNewCandidate({Candidate candidate, int empId}) async =>
+      await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
+          .then((value) => _candidateApiProvider
+                  .insertNewCandidate(
                       empID: empId,
                       newCandidate: candidate,
                       authorizeToken: value.toString())
