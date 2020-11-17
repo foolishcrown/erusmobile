@@ -1,3 +1,4 @@
+import 'package:erusmobile/scr/models/apply_model.dart';
 import 'package:erusmobile/scr/models/candidate_model.dart';
 import 'package:erusmobile/scr/models/company_model.dart';
 import 'package:erusmobile/scr/models/emp_account_model.dart';
@@ -133,6 +134,15 @@ class ApplyRepository {
           .then((value) => _applyApiProvider
           .applyCandidate(
           jobId: jobId, canId: canId, authorizeToken: value.toString())
+          .catchError((e) {
+        throw e;
+      }));
+
+  Future<ItemApplyCandidateModel> fetchAllApplyCandidate({int empId}) async =>
+      await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
+          .then((value) => _applyApiProvider
+          .fetchAllApplyCandidate(
+          empId: empId, authorizeToken: value.toString())
           .catchError((e) {
         throw e;
       }));

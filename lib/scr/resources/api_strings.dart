@@ -94,4 +94,10 @@ class ApplyApiString{
   static String applyCandidateToJob(){
     return BASE_URL + '/api/applycandidates';
   }
+
+  static String fetchAllApplyCandidate(int empId){
+    return BASE_URL + '/api/applycandidates/employeeid/$empId';
+  }
+
+
 }

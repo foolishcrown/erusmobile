@@ -146,7 +146,7 @@ class _JobListState extends State<JobList> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                2,
+                                                3,
                                             child: RequiredSkillList(jobId: snapshot.data.jobs[index].id),
                                           )
                                         ],

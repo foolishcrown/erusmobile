@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:erusmobile/scr/models/apply_model.dart';
 import 'package:erusmobile/scr/models/candidate_model.dart';
 import 'package:erusmobile/scr/models/company_model.dart';
 import 'package:erusmobile/scr/models/emp_account_model.dart';
@@ -389,4 +390,27 @@ class ApplyApiProvider {
       throw Exception('Failed to load post');
     }
   }
+
+  Future<ItemApplyCandidateModel> fetchAllApplyCandidate(
+      {int empId, String authorizeToken}) async {
+    Client client = Client();
+
+    print("Fetching Skills");
+    final response = await client.get(
+        ApplyApiString.fetchAllApplyCandidate(empId),
+        headers: {'Authorization': authorizeToken});
+    print("Applies : " + response.body.toString());
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      return ItemApplyCandidateModel.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 401) {
+      signOutGoogle();
+      throw Exception(
+          'Your login authorize token has been expired, try to login again !');
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
 }

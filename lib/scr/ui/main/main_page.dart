@@ -34,19 +34,6 @@ class _MainPageState extends State<MainPage> {
     bloc.dispose();
   }
 
-
-
-  List<Widget> _widgetOptions(int empId) => <Widget>[
-        DashboardPage(),
-        JobsPage(
-          empId: empId,
-        ),
-        ReferralsPage(),
-        CandidatesPage(
-          empId: empId,
-        )
-      ];
-
   List<String> _titleAppbar() =>
       <String>['Dashboard', 'Jobs', 'Referrals', 'Candidates'];
 
@@ -134,7 +121,9 @@ class _MainPageState extends State<MainPage> {
                     JobsPage(
                       empId: snapshot.data.id,
                     ),
-                    ReferralsPage(),
+                    ReferralsPage(
+                      empId:  snapshot.data.id,
+                    ),
                     CandidatesPage(
                       empId: snapshot.data.id,
                     )

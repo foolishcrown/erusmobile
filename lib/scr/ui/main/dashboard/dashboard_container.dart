@@ -1,4 +1,5 @@
 import 'package:erusmobile/constrants/app_constrants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DashboardContain extends StatefulWidget {
@@ -20,6 +21,7 @@ class _DashboardContainState extends State<DashboardContain> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                ///REFERRALS
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -35,16 +37,57 @@ class _DashboardContainState extends State<DashboardContain> {
                         child: Text("YOUR REFERRALS",
                             style: AppFonts.comp_title_black(context)),
                         alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(bottom: 10),
                       ),
                       Row(
                         ///Context
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width / 2,
-                            color: Colors.black,
-                          )
+                            margin: EdgeInsets.only(right: 10),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 2.5,
+                                  height: MediaQuery.of(context).size.height/10,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                    color: Colors.amber.withOpacity(0.3),
+                                  ),
+                                  child: Center(child: Text('20', style: AppFonts.title_style2(context),)),
+
+                                ),
+                                Container(
+                                    alignment: Alignment.centerLeft,
+                                    width: MediaQuery.of(context).size.width / 2.5,
+                                    child: Center(child: Text('Referrals', style: AppFonts.comp_title_black(context),)))
+                              ],
+
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                height: MediaQuery.of(context).size.height/10,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                                  color: Colors.amber.withOpacity(0.3),
+                                ),
+                                child: Center(child: Text('100', style: AppFonts.title_style2(context),)),
+
+                              ),
+                              Container(
+                                  alignment: Alignment.centerLeft,
+                                  width: MediaQuery.of(context).size.width / 2.5,
+                                  child: Center(child: Text('Scores', style: AppFonts.comp_title_black(context),)))
+                            ],
+
+                          ),
                         ],
-                      )
+                      ),
+
                     ],
                   ),
                   padding: EdgeInsets.only(top: 10, left: 10),
@@ -52,6 +95,8 @@ class _DashboardContainState extends State<DashboardContain> {
                 SizedBox(
                   height: spaceSizedBox,
                 ),
+
+                ///
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -67,16 +112,38 @@ class _DashboardContainState extends State<DashboardContain> {
                         child: Text("YOUR RANKING",
                             style: AppFonts.comp_title_black(context)),
                         alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(bottom: 10),
                       ),
                       Row(
                         ///Context
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width / 2,
-                            color: Colors.black,
-                          )
+                            margin: EdgeInsets.only(right: 10),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 2.5,
+                                  height: MediaQuery.of(context).size.height/10,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                    color: Colors.amber.withOpacity(0.3),
+                                  ),
+                                  child: Center(child: Text('#1', style: AppFonts.title_style2(context),)),
+
+                                ),
+                                Container(
+                                    alignment: Alignment.centerLeft,
+                                    width: MediaQuery.of(context).size.width / 2.5,
+                                    child: Center(child: Text('of all referrals', style: AppFonts.comp_title_black(context),)))
+                              ],
+
+                            ),
+                          ),
+
                         ],
-                      )
+                      ),
+
                     ],
                   ),
                   padding: EdgeInsets.only(top: 10, left: 10),
@@ -99,16 +166,38 @@ class _DashboardContainState extends State<DashboardContain> {
                         child: Text("AVAILABLE JOBS",
                             style: AppFonts.comp_title_black(context)),
                         alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(bottom: 10),
                       ),
                       Row(
                         ///Context
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width / 2,
-                            color: Colors.black,
-                          )
+                            margin: EdgeInsets.only(right: 10),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 2.5,
+                                  height: MediaQuery.of(context).size.height/10,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                    color: Colors.amber.withOpacity(0.3),
+                                  ),
+                                  child: Center(child: Text('4', style: AppFonts.title_style2(context),)),
+
+                                ),
+                                Container(
+                                    alignment: Alignment.centerLeft,
+                                    width: MediaQuery.of(context).size.width / 2.5,
+                                    child: Center(child: Text('Jobs', style: AppFonts.comp_title_black(context),)))
+                              ],
+
+                            ),
+                          ),
+
                         ],
-                      )
+                      ),
+
                     ],
                   ),
                   padding: EdgeInsets.only(top: 10, left: 10),
