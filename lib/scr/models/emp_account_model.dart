@@ -10,6 +10,10 @@ class EmpAccount {
   int _totalReward;
   int _quantityCandidate;
   String _email;
+  String _companyId;
+  String _companyName;
+  String _companyAddress;
+  String _companyPhone;
 
   EmpAccount(result) {
     if (result != null) {
@@ -66,4 +70,12 @@ class EmpAccount {
   String get lastName => _lastName;
 
   String get fullName => _lastName + ' ' + firstName;
+
+  String get companyId => _companyId;
+
+  String get companyName => _companyName;
+
+  String get companyAddress => _companyAddress;
+
+  String get companyPhone => _companyPhone;
 }

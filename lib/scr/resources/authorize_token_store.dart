@@ -14,7 +14,7 @@ class SharedPrefAccount {
   static final QUANTITY_CANDIDATE = 'quantityCandidate';
   static final EMAIL = 'email';
   static final FULLNAME = 'fullname';
-
+  static final COMPANY_ID = 'companyId';
   static saveString(String id, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(id, value);

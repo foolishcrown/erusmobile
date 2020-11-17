@@ -19,6 +19,7 @@ class _CandidatesPageState extends State<CandidatesPage> {
     return Scaffold(
       body: CandidateList(
         empId: widget.empId,
+        isRefer: false,
       ),
     );
   }

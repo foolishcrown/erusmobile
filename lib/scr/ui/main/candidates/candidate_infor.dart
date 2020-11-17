@@ -335,7 +335,7 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                             controller: _firstNameController,
                             keyboardType: TextInputType.name,
                             autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
                               labelText: 'First name',
                               icon: Icon(Icons.drive_file_rename_outline),
@@ -355,7 +355,7 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                             controller: _lastNameController,
                             keyboardType: TextInputType.name,
                             autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
                               labelText: 'Last name',
                               icon: Icon(Icons.drive_file_rename_outline),
@@ -374,7 +374,8 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                           child: TextFormField(
                             keyboardType: TextInputType.phone,
                             autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
+                            controller: _phoneController,
                             decoration: InputDecoration(
                               labelText: 'Phone',
                               icon: Icon(Icons.phone),
@@ -396,7 +397,7 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                           child: TextFormField(
                             keyboardType: TextInputType.emailAddress,
                             autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             controller: _emailController,
                             decoration: InputDecoration(
                               labelText: 'Email',
@@ -444,22 +445,22 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                                               String resumeFile =
                                                   snapshot.data.resumeFile;
                                               Candidate _tmpCandidate =
-                                              Candidate(
-                                                  widget.candidateId,
-                                                  firstName,
-                                                  lastName,
-                                                  email,
-                                                  phone,
-                                                  resumeFile);
+                                                  Candidate(
+                                                      widget.candidateId,
+                                                      firstName,
+                                                      lastName,
+                                                      email,
+                                                      phone,
+                                                      resumeFile);
                                               bloc.updateCandidateById(
                                                   empId: widget.empId,
                                                   candidate: _tmpCandidate);
                                               bloc.updateStatus.stream.first
                                                   .then(
-                                                    (value) =>
+                                                (value) =>
                                                     setupWaitTimeResponse(
                                                         successMsg:
-                                                        'Update Success',
+                                                            'Update Success',
                                                         failMsg: 'Update Fail',
                                                         status: value),
                                                 // }

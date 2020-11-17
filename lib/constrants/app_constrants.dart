@@ -82,6 +82,15 @@ class AppFonts {
         color: Colors.black,
         fontSize: fontSize);
   }
+  static TextStyle comp_title_white(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double fontSize = size.width * FONT_COMP_RATIO;
+    return TextStyle(
+        fontFamily: 'Open Sans',
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+        fontSize: fontSize);
+  }
 
   static TextStyle comp_style_black(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -114,6 +123,15 @@ class AppFonts {
         fontSize: fontSize);
   }
 
+  static TextStyle comp_style_detail_black(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double fontSize = size.width * FONT_COMP_DETAIL_RATIO;
+    return TextStyle(
+        fontFamily: 'Open Sans',
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+        fontSize: fontSize);
+  }
   static TextStyle comp_style_detail_red(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double fontSize = size.width * FONT_COMP_DETAIL_RATIO;

@@ -42,8 +42,15 @@ class CandidateApiString {
 
 class CandidateSkillApiString {
   ///Get list candidate skills api
-  static String getCandidateSkills(int numpage, int canID) {
+  static String getCandidateSkills({int numpage, int canID}) {
     return BASE_URL + '/api/candidateskills/$numpage/candid/$canID';
+  }
+}
+
+class RequiredSkillApiString {
+  ///Get list candidate skills api
+  static String getRequiredSkills({int numpage, int jobId}) {
+    return BASE_URL + '/api/skillrequires/$numpage/jobid/$jobId';
   }
 }
 
@@ -72,5 +79,19 @@ class CompanyApiString {
   ///Get company by employee id
   static String getCompanyByEmpID(int empId) {
     return BASE_URL + '/api/companies/empid/$empId';
+  }
+}
+
+class SkillApiString{
+  ///Get all skill
+  static String getSkillWithPage(int numpage){
+    return BASE_URL + '/api/skills/numpage/$numpage';
+  }
+}
+
+class ApplyApiString{
+  ///Apply candidate
+  static String applyCandidateToJob(){
+    return BASE_URL + '/api/applycandidates';
   }
 }

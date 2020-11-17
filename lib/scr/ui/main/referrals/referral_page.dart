@@ -10,9 +10,8 @@ class ReferralsPage extends StatefulWidget {
 class _ReferralsPageState extends State<ReferralsPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(),
+    return Scaffold(
+
     );
   }
 }

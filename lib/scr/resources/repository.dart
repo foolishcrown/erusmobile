@@ -1,7 +1,10 @@
 import 'package:erusmobile/scr/models/candidate_model.dart';
+import 'package:erusmobile/scr/models/company_model.dart';
 import 'package:erusmobile/scr/models/emp_account_model.dart';
 import 'package:erusmobile/scr/models/job_model.dart';
+import 'package:erusmobile/scr/models/require_skill_model.dart';
 import 'package:erusmobile/scr/models/skill_candidate_model.dart';
+import 'package:erusmobile/scr/models/skill_model.dart';
 import 'package:erusmobile/scr/resources/api.dart';
 import 'package:erusmobile/scr/resources/authorize_token_store.dart';
 
@@ -91,6 +94,48 @@ class JobRepository {
                   .catchError((e) {
                 throw e;
               }));
+
+  final _requiredSkillApiProvider = RequiredSkillApiProvider();
+
+  Future<ItemRequiredSkillModel> fetchSkillsByCandidate(
+          {int jobId, int numpage}) async =>
+      await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
+          .then((value) => _requiredSkillApiProvider
+          .fetchRequiredSkillList(
+          jobId: jobId,
+          numpage: numpage,
+          authorizeToken: value.toString())
+          .catchError((e) {
+        throw e;
+      }));
+
+
+}
+
+class SkillRepository {
+  final _skillApiProvider = SkillApiProvider();
+
+  Future<ItemSkillModel> fetchSkills(int numPage) async =>
+      await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
+          .then((value) => _skillApiProvider
+                  .fetchSkills(
+                      pageNum: numPage, authorizeToken: value.toString())
+                  .catchError((e) {
+                throw e;
+              }));
+}
+
+class ApplyRepository {
+  final _applyApiProvider = ApplyApiProvider();
+
+  Future<bool> applyCandidate({int canId, int jobId}) async =>
+      await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
+          .then((value) => _applyApiProvider
+          .applyCandidate(
+          jobId: jobId, canId: canId, authorizeToken: value.toString())
+          .catchError((e) {
+        throw e;
+      }));
 }
 
 class LoginRepository {
@@ -111,6 +156,17 @@ class LoginRepository {
           .then((value) => _employeeApiProvider
                   .fetchEmpAccount(
                       email: email, authorizeToken: value.toString())
+                  .catchError((e) {
+                throw e;
+              }));
+
+  final _companyApiProvider = CompanyApiProvider();
+
+  Future<Company> fetchCompanyByEmpId(int empId) async =>
+      await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
+          .then((value) => _companyApiProvider
+                  .fetchCompanyIdByEmpId(
+                      empId: empId, authorizeToken: value.toString())
                   .catchError((e) {
                 throw e;
               }));

@@ -9,7 +9,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
-
 Future<String> signInWithGoogle(BuildContext context, Key _keyLoader) async {
   await Firebase.initializeApp();
 
@@ -68,33 +67,44 @@ Future<String> signInWithGoogle(BuildContext context, Key _keyLoader) async {
       print('signInWithGoogle succeeded: ${user.email}');
 
       ///GET EMPLOYEE ACCOUNT FROM EMAIL, THEN SAVE TO SHARED PREFERENCE
-      await _repository.fetchEmpAccount(user.email).then((empAccount) async => {
-        await SharedPrefAccount.saveInt(
-            SharedPrefAccount.EMP_ID, empAccount.id),
-        await SharedPrefAccount.saveString(
-            SharedPrefAccount.FIRST_NAME, empAccount.firstName),
-        await SharedPrefAccount.saveString(
-            SharedPrefAccount.LAST_NAME, empAccount.lastName),
-        await SharedPrefAccount.saveString(
-            SharedPrefAccount.PHONE, empAccount.phone),
-        await SharedPrefAccount.saveString(
-            SharedPrefAccount.ADDRESS, empAccount.address),
-        await SharedPrefAccount.saveString(
-            SharedPrefAccount.DATE_OF_BIRTH, empAccount.dateOfBirth),
-        await SharedPrefAccount.saveInt(
-            SharedPrefAccount.TOTAL_REWARD, empAccount.totalReward),
-        await SharedPrefAccount.saveInt(
-            SharedPrefAccount.QUANTITY_CANDIDATE,
-            empAccount.quantityCandidate),
-        await SharedPrefAccount.saveString(
-            SharedPrefAccount.EMAIL, empAccount.email),
-      }).then((value) => Navigator.pop(context)).catchError((e) {
+      await _repository
+          .fetchEmpAccount(user.email)
+          .then((empAccount) async => {
+                _repository
+                    .fetchCompanyByEmpId(empAccount.id)
+                    .then((company) async => {
+                          await SharedPrefAccount.saveInt(
+                              SharedPrefAccount.COMPANY_ID, company.id),
+                        }),
+                await SharedPrefAccount.saveInt(
+                    SharedPrefAccount.EMP_ID, empAccount.id),
+                await SharedPrefAccount.saveString(
+                    SharedPrefAccount.FIRST_NAME, empAccount.firstName),
+                await SharedPrefAccount.saveString(
+                    SharedPrefAccount.LAST_NAME, empAccount.lastName),
+                await SharedPrefAccount.saveString(
+                    SharedPrefAccount.PHONE, empAccount.phone),
+                await SharedPrefAccount.saveString(
+                    SharedPrefAccount.ADDRESS, empAccount.address),
+                await SharedPrefAccount.saveString(
+                    SharedPrefAccount.DATE_OF_BIRTH, empAccount.dateOfBirth),
+                await SharedPrefAccount.saveInt(
+                    SharedPrefAccount.TOTAL_REWARD, empAccount.totalReward),
+                await SharedPrefAccount.saveInt(
+                    SharedPrefAccount.QUANTITY_CANDIDATE,
+                    empAccount.quantityCandidate),
+                await SharedPrefAccount.saveString(
+                    SharedPrefAccount.EMAIL, empAccount.email),
+              })
+          .then((value) => {Navigator.pop(context)}) ///Close loading dialog
+          .catchError((e) {
         throw e;
-      }).then((value) => null);
-
+      });
       return '$user';
     }
   }
+
+  Navigator.pop(context);
   return null;
 }
 

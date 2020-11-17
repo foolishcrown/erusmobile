@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class MainPage extends StatefulWidget {
+  ///B
   final int empId;
 
   MainPage({Key key, this.empId}) : super(key: key);
@@ -23,10 +24,23 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final bloc = EmpAccountBloc();
   int _selectedIndex = 0;
+  PageController pageController = PageController();
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+    bloc.dispose();
+  }
+
+
 
   List<Widget> _widgetOptions(int empId) => <Widget>[
         DashboardPage(),
-        JobsPage(),
+        JobsPage(
+          empId: empId,
+        ),
         ReferralsPage(),
         CandidatesPage(
           empId: empId,
@@ -40,6 +54,14 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _selectedIndex = index;
     });
+    pageController.jumpToPage(index);
+  }
+
+  void _onPageChange(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
   }
 
   ///Bottom Navigation Bar
@@ -104,9 +126,19 @@ class _MainPageState extends State<MainPage> {
                 drawer: Drawer(
                     child: drawerItems(
                         context, snapshot.data.fullName, snapshot.data.email)),
-                body: Center(
-                  child: _widgetOptions(snapshot.data.id)
-                      .elementAt(_selectedIndex),
+                body: PageView(
+                  controller: pageController,
+                  onPageChanged: _onPageChange,
+                  children: [
+                    DashboardPage(),
+                    JobsPage(
+                      empId: snapshot.data.id,
+                    ),
+                    ReferralsPage(),
+                    CandidatesPage(
+                      empId: snapshot.data.id,
+                    )
+                  ],
                 ),
                 bottomNavigationBar: _navBottom(context),
               ),
