@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 class DashboardPage extends StatefulWidget {
   final int empId;
   final int score;
-
-  DashboardPage({@required this.empId, this.score});
+  DashboardPage({@required this.empId,@required this.score});
 
   @override
   _DashboardPageState createState() => _DashboardPageState();

@@ -5,6 +5,7 @@ import 'package:erusmobile/scr/ui/main/candidates/candidate_page.dart';
 import 'package:erusmobile/scr/ui/main/dashboard/dashboard_page.dart';
 import 'package:erusmobile/scr/ui/main/jobs/job_page.dart';
 import 'package:erusmobile/scr/ui/main/referrals/referral_page.dart';
+import 'package:erusmobile/scr/widgets/AlertDialogChecker.dart';
 import 'package:erusmobile/scr/widgets/LoadingScreen.dart';
 import 'package:erusmobile/scr/widgets/NavDrawer.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +79,9 @@ class _MainPageState extends State<MainPage> {
   //Build
   @override
   Widget build(BuildContext context) {
-    bloc.getEmpAccount();
+    bloc.getEmpAccount().catchError((e) {
+      showAlertTimeOutDialog(context, 'Alert', e.toString());
+    });
     return StreamBuilder(
         stream: bloc.empAccount,
         builder: (context, AsyncSnapshot<EmpAccount> snapshot) {

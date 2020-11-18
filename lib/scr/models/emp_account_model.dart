@@ -36,6 +36,7 @@ class EmpAccount {
   EmpAccount.getRank(result){
     _rank = result['rank'];
     _numberCandidateHired = result['numberCandidate'];
+    // _id = result['empId'];
   }
 
   Future<EmpAccount> loadFormSharedPref() async {

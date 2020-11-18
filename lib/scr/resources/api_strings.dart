@@ -64,6 +64,10 @@ class JobApiString {
   static String getJobsByCompany({int pageNum, int companyId}) {
     return BASE_URL + '/api/jobs/$pageNum/companyid/$companyId';
   }
+
+  static String getQuantityJobByComp({int companyId}){
+    return BASE_URL + '/api/jobs/getquantityjobbycomid/$companyId';
+  }
 }
 
 class EmployeeApiString {
@@ -75,6 +79,11 @@ class EmployeeApiString {
   static String getEmpRank(int empId){
     return BASE_URL + '/api/employees/getemployeerankbyempid/$empId';
   }
+
+  static String getReward({int empId, int canId, int jobId}){
+    return BASE_URL + '/api/employees/getreward/$empId/$canId/$jobId';
+  }
+
 }
 
 class CompanyApiString {
@@ -100,6 +109,5 @@ class ApplyApiString{
   static String fetchAllApplyCandidate(int empId){
     return BASE_URL + '/api/applycandidates/employeeid/$empId';
   }
-
 
 }

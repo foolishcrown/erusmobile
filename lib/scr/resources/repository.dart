@@ -109,6 +109,15 @@ class JobRepository {
                   .catchError((e) {
                 throw e;
               }));
+
+  Future<int> fetchQuantityJobByCompId({int companyId}) async =>
+      await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
+          .then((value) => _jobsApiProvider
+                  .fetchQuantityJob(
+                      companyId: companyId, authorizeToken: value.toString())
+                  .catchError((e) {
+                throw e;
+              }));
 }
 
 class SkillRepository {
@@ -160,6 +169,18 @@ class ApplyRepository {
                   .catchError((e) {
                 throw e;
               }));
+
+  Future<bool> getRewardApply({int empId, int jobId, int canId}) async =>
+      await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
+          .then((value) => _applyApiProvider
+                  .getRewardApply(
+                      empId: empId,
+                      jobId: jobId,
+                      canId: canId,
+                      authorizeToken: value.toString())
+                  .catchError((e) {
+                throw e;
+              }));
 }
 
 class LoginRepository {
@@ -187,11 +208,10 @@ class LoginRepository {
   Future<EmpAccount> fetchEmpRank(int empId) async =>
       await SharedPrefAccount.readStringValue(SharedPrefAccount.AUTHORIZE_TOKEN)
           .then((value) => _employeeApiProvider
-          .fetchEmpRank(
-          empId: empId, authorizeToken: value.toString())
-          .catchError((e) {
-        throw e;
-      }));
+                  .fetchEmpRank(empId: empId, authorizeToken: value.toString())
+                  .catchError((e) {
+                throw e;
+              }));
 
   final _companyApiProvider = CompanyApiProvider();
 
@@ -203,5 +223,4 @@ class LoginRepository {
                   .catchError((e) {
                 throw e;
               }));
-
 }

@@ -42,11 +42,36 @@ class _ReferralListState extends State<ReferralList> {
     );
   }
 
-  Widget convertDate(String datetime){
+  void showStateMsg({String successMsg, String failMsg, bool status}){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              status ? successMsg : failMsg,
+              style: AppFonts.title_style1(context),
+            ),
+            backgroundColor: AppThemes.theme_color,
+            actions: [
+              new FlatButton(
+                child: new Text("Back"),
+                onPressed: () {
+                  setState(() {
+
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ) ;
+        });
+  }
+
+  Widget convertDate(String datetime) {
     DateTime tempDate = new DateFormat("yyyy-MM-dd").parse(datetime);
     String date = DateFormat("yyyy-MM-dd").format(tempDate);
-    return Text(date, style:
-    TextStyle(fontSize: 15, fontWeight: FontWeight.bold));
+    return Text(date,
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold));
   }
 
   Widget buildList(AsyncSnapshot<ItemApplyCandidateModel> snapshot) {
@@ -66,12 +91,14 @@ class _ReferralListState extends State<ReferralList> {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      child: Text('  / ',style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                      child: Text('  / ',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold)),
                       width: 20,
                     ), // chỉnh sữa nếu cần
                     Text(
-                      "Reward : " + snapshot.data.applyCandidate[index].reward.toString(),
+                      "Reward : " +
+                          snapshot.data.applyCandidate[index].reward.toString(),
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
@@ -88,12 +115,14 @@ class _ReferralListState extends State<ReferralList> {
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      child: Text('  / ',style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                      child: Text('  / ',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold)),
                       width: 20,
                     ), // chỉnh sữa nếu cần
                     Expanded(
-                      child: convertDate(snapshot.data.applyCandidate[index].applyDate),
+                      child: convertDate(
+                          snapshot.data.applyCandidate[index].applyDate),
                     ),
                   ],
                 ),
@@ -109,72 +138,156 @@ class _ReferralListState extends State<ReferralList> {
                     size: 70,
                     selectedColor: Colors.black,
                     unselectedColor: Colors.grey[200],
-                    customStep: (index, color, step) => color == Colors.black
-                        ? snapshot.data.applyCandidate[index].phaseId == 5 ?
-                    Column(
-                      children: [
-                        Container(
-                          color: color,
-                          child: Icon(
-                            Icons.close,
-                            color: Colors.redAccent,
-                          ),
-                        ),
-                        Text('Reject'),
-                      ],
-                    )
-                    : Column(
-                            children: [
-                              Container(
-                                color: color,
-                                child: Icon(
-                                  Icons.check,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(snapshot.data.applyCandidate[index].phaseName),
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              Container(
-                                color: color,
-                                child: Icon(
-                                  Icons.remove,
-                                ),
-                              ),
-                              Text("Waiting"),
-                            ],
-                          )
-                ),
-              snapshot.data.applyCandidate[index].reward != 0 ? FlatButton(
-                onPressed: (){
-                  ///GET REWARD
-                },
-                child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.all(Radius.circular(5.0)),
-                      color: Colors.black,
-                    ),
-                    padding: EdgeInsets.all(5),
-                    child: Text('Get Reward',style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold , color: Colors.white), )),
-              ) : Text(''),
-                (snapshot.data.applyCandidate[index].phaseId == 4 || snapshot.data.applyCandidate[index].phaseId == 5) && snapshot.data.applyCandidate[index].reward == 0 ? FlatButton(
-                  onPressed: (){
-                    ///REMOVE APPLY
+                    customStep: (indx, color, step) => color == Colors.black && (indx + 1) == snapshot.data.applyCandidate[index].phaseId
+                        ? Column(
+                                children: [
+                                  Container(
+                                    color: color,
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(snapshot
+                                      .data.applyCandidate[index].phaseName),
+                                ],
+                              )
+                        : indx == 0
+                            ? Column(
+                                children: [
+                                  Container(
+                                    color: color,
+                                    child: Icon(
+                                      Icons.remove,
+                                    ),
+                                  ),
+                                  Text("Referred"),
+                                ],
+                              )
+                            : indx == 1
+                                ? Column(
+                                    children: [
+                                      Container(
+                                        color: color,
+                                        child: Icon(
+                                          Icons.remove,
+                                        ),
+                                      ),
+                                      Text("Accept"),
+                                    ],
+                                  )
+                                : indx == 2
+                                    ? Column(
+                                        children: [
+                                          Container(
+                                            color: color,
+                                            child: Icon(
+                                              Icons.remove,
+                                            ),
+                                          ),
+                                          Text("Interview"),
+                                        ],
+                                      )
+                                    : indx == 3
+                                        ? Column(
+                                            children: [
+                                              Container(
+                                                color: color,
+                                                child: Icon(
+                                                  Icons.remove,
+                                                ),
+                                              ),
+                                              Text("Hired"),
+                                            ],
+                                          )
+                                        : indx == 4
+                                            ? Column(
+                                                children: [
+                                                  Container(
+                                                    color: color,
+                                                    child: Icon(
+                                                      Icons.remove,
+                                                    ),
+                                                  ),
+                                                  Text("Rejected"),
+                                                ],
+                                              )
+                                            : Column(
+                                                children: [
+                                                  Container(
+                                                    color: color,
+                                                    child: Icon(
+                                                      Icons.remove,
+                                                    ),
+                                                  ),
+                                                  Text("Waiting"),
+                                                ],
+                                              )),
+                snapshot.data.applyCandidate[index].reward != 0
+                    ? FlatButton(
+                        onPressed: () {
+                          ///GET REWARD
+                          bloc
+                              .getReward(
+                              empId: widget.empId,
+                          canId: snapshot.data.applyCandidate[index].canId,
+                          jobId: snapshot.data.applyCandidate[index].jobId)
+                              .catchError((e) {
+                            showAlertTimeOutDialog(context,
+                                'Alert', e.toString());
+                          });
+                          bloc.rewardState.stream.first
+                              .then(
+                                  (value) =>
+                              {
 
-                  },
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(5.0)),
-                        color: Colors.black,
-                      ),
-                      padding: EdgeInsets.all(5),
-                      child: Text('Remove',style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold , color: Colors.white), )),
-                ) : Text('')
-          ],
+                                showStateMsg(
+                                    successMsg:
+                                    'Get reward success',
+                                    failMsg: 'Get reward fail',
+                                    status: value)
+                              });
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                              color: Colors.black,
+                            ),
+                            padding: EdgeInsets.all(5),
+                            child: Text(
+                              'Get Reward',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            )),
+                      )
+                    : Text(''),
+                (snapshot.data.applyCandidate[index].phaseId == 4 ||
+                            snapshot.data.applyCandidate[index].phaseId == 5) &&
+                        snapshot.data.applyCandidate[index].reward == 0
+                    ? FlatButton(
+                        onPressed: () {
+                          ///REMOVE APPLY
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                              color: Colors.black,
+                            ),
+                            padding: EdgeInsets.all(5),
+                            child: Text(
+                              'Remove',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            )),
+                      )
+                    : Text('')
+              ],
             ),
           ),
         );
