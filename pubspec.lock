@@ -214,6 +214,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_touch_spin:
+    dependency: "direct main"
+    description:
+      name: flutter_touch_spin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -269,7 +276,7 @@ packages:
     source: hosted
     version: "2.1.19"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -469,13 +476,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0-nullsafety.2"
-  spinner_input:
-    dependency: "direct main"
-    description:
-      name: spinner_input
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
   stack_trace:
     dependency: transitive
     description:
@@ -483,6 +483,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0-nullsafety.2"
+  step_progress_indicator:
+    dependency: "direct main"
+    description:
+      name: step_progress_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.4+7"
   stream_channel:
     dependency: transitive
     description:

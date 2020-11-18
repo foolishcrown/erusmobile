@@ -9,7 +9,7 @@ import 'package:erusmobile/scr/widgets/AlertDialogChecker.dart';
 import 'package:flutter/material.dart';
 
 
-const double LEVEL_RATIO = 0.2;
+const double xLEVEL_RATIO = 0.2;
 
 
 class CandidateSkillList extends StatefulWidget {
@@ -76,7 +76,7 @@ class _CandidateSkillListState extends State<CandidateSkillList> {
                         child: LinearProgressIndicator(
                           backgroundColor: Colors.white,
                           valueColor: new AlwaysStoppedAnimation<Color>(Colors.blueGrey),
-                          value: snapshot.data.skills[index].level * LEVEL_RATIO,
+                          value: snapshot.data.skills[index].level * 0.5,
                         ),
                         alignment: Alignment.centerLeft),
                   ],

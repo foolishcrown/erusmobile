@@ -26,7 +26,6 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   PageController pageController = PageController();
 
-
   @override
   void dispose() {
     super.dispose();
@@ -48,7 +47,6 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _selectedIndex = index;
     });
-
   }
 
   ///Bottom Navigation Bar
@@ -117,12 +115,15 @@ class _MainPageState extends State<MainPage> {
                   controller: pageController,
                   onPageChanged: _onPageChange,
                   children: [
-                    DashboardPage(),
+                    DashboardPage(
+                      empId: snapshot.data.id,
+                      score: snapshot.data.totalReward,
+                    ),
                     JobsPage(
                       empId: snapshot.data.id,
                     ),
                     ReferralsPage(
-                      empId:  snapshot.data.id,
+                      empId: snapshot.data.id,
                     ),
                     CandidatesPage(
                       empId: snapshot.data.id,

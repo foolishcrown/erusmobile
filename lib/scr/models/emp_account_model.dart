@@ -14,6 +14,10 @@ class EmpAccount {
   String _companyName;
   String _companyAddress;
   String _companyPhone;
+  int _rank;
+  int _numberCandidateHired;
+
+  int get rank => _rank;
 
   EmpAccount(result) {
     if (result != null) {
@@ -27,6 +31,11 @@ class EmpAccount {
       _totalReward = result['totalReward'];
       _quantityCandidate = result['quantityCandidate'];
     }
+  }
+
+  EmpAccount.getRank(result){
+    _rank = result['rank'];
+    _numberCandidateHired = result['numberCandidate'];
   }
 
   Future<EmpAccount> loadFormSharedPref() async {
@@ -78,4 +87,6 @@ class EmpAccount {
   String get companyAddress => _companyAddress;
 
   String get companyPhone => _companyPhone;
+
+  int get numberCandidateHired => _numberCandidateHired;
 }

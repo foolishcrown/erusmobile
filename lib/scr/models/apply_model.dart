@@ -8,7 +8,10 @@ class _ApplyCandidate {
   String _phaseName;
   String _candidateName;
   String _jobName;
+  int _reward;
 
+
+  int get reward => _reward;
 
   String get candidateName => _candidateName;
 
@@ -22,6 +25,7 @@ class _ApplyCandidate {
     _candidateName = result['candidateName'];
     _jobName = result['jobName'];
     _phaseId = result['phaseID'];
+    _reward = result['reward'];
   }
 
 

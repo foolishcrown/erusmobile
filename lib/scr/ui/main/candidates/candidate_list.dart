@@ -234,68 +234,70 @@ class _CandidateListState extends State<CandidateList> {
       itemBuilder: (context, index) {
         return Card(
           // color: Colors.white.withOpacity(0.9),
-          child: Padding(
-            padding: const EdgeInsets.all(25.0),
+          child: Container(
+            padding: const EdgeInsets.all(15),
             child: Column(
               children: [
                 Row(
                   children: [
                     Container(
+                      margin: EdgeInsets.only(right: MediaQuery.of(context).size.width/6),
                       padding: EdgeInsets.only(top: 5),
                       height: MediaQuery
                           .of(context)
                           .size
                           .height / 7,
-                      child: Column(
-                        children: [
-                          Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width / 2,
-                              child: Text(
-                                  snapshot.data.candidates[index].fullname,
-                                  style: AppFonts.comp_title_black(context)),
-                              alignment: Alignment.centerLeft),
-                          SizedBox(
-                            height: sizeSpace2,
-                          ),
-                          Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width / 2,
-                              child: Text("Phone: " +
-                                  snapshot.data.candidates[index].phone),
-                              alignment: Alignment.centerLeft),
-                          SizedBox(
-                            height: sizeSpace2,
-                          ),
-                          Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width / 2,
-                              child: Text("Email: " +
-                                  snapshot.data.candidates[index].email),
-                              alignment: Alignment.centerLeft),
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width / 2,
+                                child: Text(
+                                    snapshot.data.candidates[index].fullname,
+                                    style: AppFonts.comp_title_black(context)),
+                                alignment: Alignment.centerLeft),
+                            SizedBox(
+                              height: sizeSpace2,
+                            ),
+                            Container(
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width / 2,
+                                child: Text("Phone: " +
+                                    snapshot.data.candidates[index].phone),
+                                alignment: Alignment.centerLeft),
+                            SizedBox(
+                              height: sizeSpace2,
+                            ),
+                            Container(
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width / 2,
+                                child: Text("Email: " +
+                                    snapshot.data.candidates[index].email),
+                                alignment: Alignment.centerLeft),
+                          ],
+                        ),
                       ),
                     ),
                     Container(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height / 6,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width / 3.5,
+                      // height: MediaQuery
+                      //     .of(context)
+                      //     .size
+                      //     .height / 6,
+                      // width: MediaQuery
+                      //     .of(context)
+                      //     .size
+                      //     .width / 3.5,
                       alignment: Alignment.topRight,
                       // color: Colors.blue,
                       child: Column(
                         children: [
-
                           ///Delete button
                           Container(
                             decoration: BoxDecoration(
@@ -305,7 +307,7 @@ class _CandidateListState extends State<CandidateList> {
                             ),
                             // color: Colors.orangeAccent.withOpacity(0.2),
                             child: IconButton(
-                              iconSize: 30,
+                              iconSize: 20,
                               color: Colors.redAccent,
                               icon: Icon(Icons.delete),
                               onPressed: () {
@@ -490,7 +492,7 @@ class _CandidateListState extends State<CandidateList> {
                       width: MediaQuery
                           .of(context)
                           .size
-                          .width / 9,
+                          .width / 10,
                     ),
                     appBtnShowImageDialog(
                         context: context,

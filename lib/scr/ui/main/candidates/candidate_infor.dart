@@ -411,6 +411,55 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                             },
                           ),
                         ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          child: Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  pickFileChooser().then((value) => {
+                                    if (value is File)
+                                      {
+                                        // FireStorageService.saveToStorage(value)
+                                        _resumeFileController.text =
+                                            value.path.split('/').last,
+                                        print("Selected File : " +
+                                            _resumeFileController.text),
+                                        selectedFile = value,
+                                        isSelectFile = true,
+                                        // _resumeFileController.text = value.
+                                        _onSelectFile(),
+                                      }
+                                    else
+                                      {print('Cancel upload')}
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                                    color: Colors.deepOrangeAccent.withOpacity(0.3),
+                                  ),
+                                  // color: Colors.orangeAccent.withOpacity(0.2),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.picture_as_pdf,
+                                        size: 30,
+                                        color: Colors.redAccent,
+                                      ),
+                                      Text('Choose other resume')
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 40,
+                              ),
+                            ],
+                          ),
+                        ),
                         ElevatedButton(
                           onPressed: () {
                             if (!isSubmit) {
@@ -442,8 +491,12 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                                                   _phoneController.text;
                                               String email =
                                                   _emailController.text;
-                                              String resumeFile =
-                                                  snapshot.data.resumeFile;
+                                              String resumeFile;
+                                              if(selectedFile != null){
+                                                resumeFile = _resumeFileController.text;
+                                              }else{
+                                                resumeFile = snapshot.data.resumeFile;
+                                              }
                                               Candidate _tmpCandidate =
                                                   Candidate(
                                                       widget.candidateId,
@@ -458,12 +511,18 @@ class _CandidateRoutePageState extends State<CandidateRoutePage> {
                                               bloc.updateStatus.stream.first
                                                   .then(
                                                 (value) =>
-                                                    setupWaitTimeResponse(
+                                                {
+                                                  if (value && selectedFile != null)
+                                                    {
+                                                      FireStorageService.saveToStorage(
+                                                          selectedFile, resumeFile)
+                                                    },
+                                                  setupWaitTimeResponse(
                                                         successMsg:
                                                             'Update Success',
                                                         failMsg: 'Update Fail',
                                                         status: value),
-                                                // }
+                                                }
                                               );
                                             },
                                           ),

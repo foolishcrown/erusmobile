@@ -6,9 +6,7 @@ Widget drawerHeader(String username, String email) => UserAccountsDrawerHeader(
       accountName: Text(username),
       accountEmail: Text(email),
       currentAccountPicture: CircleAvatar(
-        child: FlutterLogo(
-          size: 42,
-        ),
+        child: Icon(Icons.person_outline, size: 50,),
         backgroundColor: Colors.white,
       ),
       decoration: BoxDecoration(color: Colors.grey),
@@ -23,7 +21,7 @@ Widget drawerItems(BuildContext context, String username, String email) =>
           onTap: () => null,
         ),
         ListTile(
-          title: Text("Setting2"),
+          title: Text("Notification"),
           onTap: () => null,
         ),
         ListTile(

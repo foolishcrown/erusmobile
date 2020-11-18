@@ -38,9 +38,9 @@ showAlertTimeOutDialog(BuildContext context, String title, String desc) =>
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return WillPopScope(
+        return new WillPopScope(
             onWillPop: () {},
-            child: AlertDialog(
+            child: new AlertDialog(
               title: Text(title),
               content: new SingleChildScrollView(
                 child: Text(desc.substring(desc.indexOf(' ', 1))),

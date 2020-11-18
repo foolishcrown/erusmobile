@@ -4,6 +4,8 @@ import 'package:rxdart/rxdart.dart';
 class EmpAccountBloc {
   final _empAccount = EmpAccount(null);
   final _empAccountFetcher = PublishSubject<EmpAccount>();
+  // final _empRankFetcher = PublishSubject<EmpAccount>();
+
 
   PublishSubject<EmpAccount> get empAccount => _empAccountFetcher.stream;
 

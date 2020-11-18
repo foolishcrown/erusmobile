@@ -45,6 +45,11 @@ class CandidateSkillApiString {
   static String getCandidateSkills({int numpage, int canID}) {
     return BASE_URL + '/api/candidateskills/$numpage/candid/$canID';
   }
+
+  ///Add skill for candidate
+  static String addSkillCandidate(){
+    return BASE_URL + '/api/candidateskills';
+  }
 }
 
 class RequiredSkillApiString {
@@ -61,17 +66,14 @@ class JobApiString {
   }
 }
 
-class EmpAccountApiString {
-  ///Get list account api :
-  static String getEmpAccounts(int pageNum) {
-    return BASE_URL + '/api/empaccounts/pagenum/$pageNum';
-  }
-}
-
 class EmployeeApiString {
   ///Get employee data by login email
   static String getEmployeeByMail(String email) {
     return BASE_URL + '/api/employees/email/$email';
+  }
+
+  static String getEmpRank(int empId){
+    return BASE_URL + '/api/employees/getemployeerankbyempid/$empId';
   }
 }
 

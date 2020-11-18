@@ -210,10 +210,45 @@ class CandidateSkillApiProvider {
       throw Exception('Failed to load post');
     }
   }
+
+  Future<bool> addSkillCandidate(
+      {@required int canId,
+        @required String authorizeToken,
+        @required int skillId, @required int level}) async {
+    Client client = Client();
+
+    print("Processing skill for candidate");
+    final response = await client.post(ApplyApiString.applyCandidateToJob(),
+        headers: {
+          'Authorization': authorizeToken,
+          'Content-Type': 'application/json'
+        },
+        body: json.encode({
+          "canID": canId,
+          "skillID": skillId,
+          "level" : level
+        }));
+
+    print("body : " + response.body.toString());
+    if (response.statusCode == 201) {
+      // If the call to the server was successful, parse the JSON
+      return true;
+    } else if (response.statusCode == 401) {
+      signOutGoogle();
+      throw Exception(
+          'Your login authorize token has been expired, try to login again !');
+    } else if (response.statusCode == 409) {
+      return false;
+    }else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
 }
 
 /// ***********************************************************************************************************************************
-/// CANDIDATE SKILL API PROVIDER*******************************************************************************************************
+/// REQUIRED SKILL API PROVIDER*******************************************************************************************************
 /// ***********************************************************************************************************************************
 class RequiredSkillApiProvider {
   ///get skills of candidate
@@ -324,6 +359,29 @@ class EmployeeApiProvider {
       throw Exception('Failed to load post');
     }
   }
+
+  Future<EmpAccount> fetchEmpRank(
+      {int empId, String authorizeToken}) async {
+    Client client = Client();
+
+    print("entered");
+    final response = await client.get(
+        EmployeeApiString.getEmpRank(empId),
+        headers: {'Authorization': authorizeToken});
+    print("body : " + response.body.toString());
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      return EmpAccount.getRank(json.decode(response.body));
+    } else if (response.statusCode == 401) {
+      signOutGoogle();
+      throw Exception(
+          'Your login authorize token has been expired, try to login again !');
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
 }
 
 

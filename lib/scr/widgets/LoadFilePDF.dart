@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:erusmobile/constrants/app_constrants.dart';
 import 'package:erusmobile/scr/blocs/load_pdf_bloc.dart';
-import 'package:erusmobile/scr/resources/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -85,21 +84,6 @@ class _PDFScreenState extends State<PDFScreen> {
                   backgroundColor: AppThemes.theme_color,
                   title: Text('Resume'),
                   actions: <Widget>[
-                    IconButton(
-                      onPressed: () {
-                        pickFileChooser().then((value) =>
-                        {
-                          if(value is File){
-                            // FireStorageService.saveToStorage(value)
-                          } else
-                            {
-                              print('Cancel upload')
-                            }
-                        });
-                      },
-                      icon: Icon(Icons.upload_file, color: Colors.white),
-                    ),
-                    // Your widgets here
                   ],
                 ),
                 path: pathPDF,
