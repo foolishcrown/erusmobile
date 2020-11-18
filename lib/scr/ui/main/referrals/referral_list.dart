@@ -240,7 +240,6 @@ class _ReferralListState extends State<ReferralList> {
                               .then(
                                   (value) =>
                               {
-
                                 showStateMsg(
                                     successMsg:
                                     'Get reward success',

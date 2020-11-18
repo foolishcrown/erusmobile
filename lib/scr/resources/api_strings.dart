@@ -83,8 +83,8 @@ class EmployeeApiString {
   static String getReward({int empId, int canId, int jobId}){
     return BASE_URL + '/api/employees/getreward/$empId/$canId/$jobId';
   }
-
 }
+
 
 class CompanyApiString {
   ///Get company by employee id
